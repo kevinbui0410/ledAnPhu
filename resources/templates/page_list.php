@@ -12,7 +12,7 @@
   if ($tableName == "orderTable"){
 
         echo "<div class='row'><div class='col-6'><a href='orderDetails.php' class='me-2'><button type='submit' class='btn btn-primary'>Nhập mới</button></a>";
-        echo "<a href='orderAssign.php'><button type='submit' class='btn btn-primary'>Giao việc</button></a></div></div>";
+        echo "<a href='orderAssign.php'><button type='submit' class='btn btn-primary'>Giao thiết kế</button></a></div></div>";
 
         echo "
           <script>
