@@ -1,0 +1,1 @@
+<h3><small class='text-muted'><?php echo $title ?></small></h3>
