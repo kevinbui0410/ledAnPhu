@@ -2,6 +2,14 @@
 <h3><small class='text-muted'><?php echo $title ?></small></h3>
 <div class="row">
     <form method="POST">
+        <?php 
+        if ($error != "") : 
+            echo "
+            <div class='alert alert-danger mb-3' role='alert'>
+                $error
+            </div> 
+            ";
+        endif ?>
         <div class="form-group row p-2">
             <label for="orderName" class="col-sm-2 col-form-label">Tên đơn hàng</label>
             <div class="col-sm-10 has-validation">
@@ -59,6 +67,22 @@
                 </select>
             </div>
         </div> 
+        <div class="form-group row p-2">
+            <label for="content" class="col-sm-2 col-form-label">Nội dung</label>
+            <div class="col-sm-10 has-validation has-validation">
+                <textarea class='form-control' id='content' name='content' aria-describedby="inputGroupPrepend" required>
+                </textarea>
+            </div>
+            <div id="validationServerOrderNameFeedback" class="invalid-feedback">
+                    Nhập nội dung đơn hàng
+                </div>
+        </div>
+        <div class="form-group row p-2">
+            <label for="inputDate" class="col-sm-2 col-form-label">Ngày nhận</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="inputDate" name="inputDate"  type="text"/>
+            </div>
+        </div>
         <div class='form-group row p-2'>
             <div class="col-sm-10">
                 <button type="submit" class="btn btn-primary">Nhập đơn hàng</button>
@@ -87,4 +111,22 @@
         }, false)
         })
     })()
+
+    // khởi tạo datepicker cho field ngây nhận đơn hàng
+
+    $(document).ready(function(){
+      'use strict'
+      var date_input=$('input[name="inputDate"]'); 
+      var container=$('form').length>0 ? $('form').parent() : "body";
+      var options={
+        format: 'mm/dd/yyyy',
+        container: container,
+        todayHighlight: true,
+        autoclose: true,
+        //defaultDate: new Date(),
+        autoclose: true
+      };
+      date_input.datepicker(options);
+      date_input.datepicker('setDate', new Date());
+    })
 </script>
