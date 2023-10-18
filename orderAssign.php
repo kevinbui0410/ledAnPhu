@@ -4,6 +4,8 @@
     
     require_once(LIBRARY_PATH . "/templateFunctions.php");
 
+    require_once 'resources/library/auth.php';
+
     $trangThaiDonHang = DB::query("SELECT * FROM trang_thai_don_hang");
 
     $danhSachNhanVien = DB::query("SELECT * FROM nhan_vien WHERE phong_id=2");
