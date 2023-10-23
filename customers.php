@@ -38,4 +38,4 @@
         'ajaxPage' => 'customer.php'
 	);
 	
-	renderLayoutWithContentFile("page_list.php", $variables);
+	renderLayoutWithContentFile("customers.php", $variables);

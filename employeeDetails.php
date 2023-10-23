@@ -18,6 +18,10 @@
     
     $danhSachChiNhanh = DB::query("SELECT * FROM chi_nhanh");
 
+    if (isset($_GET['id']) && $_GET['id'] != null){
+        $id = $_GET['id'];
+    }
+
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if ($_POST['employeeName'] == '' || $_POST['employeeAddress'] == '' || $_POST['employeePhone'] == ''){
             $error = "Vui lòng nhập thông tin nhân viên";

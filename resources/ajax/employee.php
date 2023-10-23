@@ -39,6 +39,7 @@ $columns = array(
     array( 'db' => 'dien_thoai',   'dt' => 2 ),
     array( 'db' => 'phong_id',     'dt' => 3 ),
     array( 'db' => 'chi_nhanh_id',     'dt' => 4 ),
+    array( 'db' => 'id',     'dt' => 5 ),
     
 );
  

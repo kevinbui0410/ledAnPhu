@@ -38,7 +38,7 @@ $columns = array(
     array( 'db' => 'ho_ten', 'dt' => 0 ),
     array( 'db' => 'dia_chi',   'dt' => 1 ),
     array( 'db' => 'dien_thoai',   'dt' => 2 ),
-    
+    array( 'db' => 'id',   'dt' => 3 ),
     
 );
  

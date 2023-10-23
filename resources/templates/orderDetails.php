@@ -3,17 +3,35 @@
 <div class="row">
     <form method="POST">
         <?php 
-        if ($error != "") : 
-            echo "
-            <div class='alert alert-danger mb-3' role='alert'>
-                $error
-            </div> 
-            ";
-        endif ?>
+            $orderName = '';
+            $employee = 0;
+            $customer = 0;
+            $status = 0;
+            $content = '';
+            $inputDate = 0;
+            if ($donHang != null){
+                $orderName = $donHang['ten_don_hang'];
+                $employee = $donHang['nhan_vien'];
+                $customer = $donHang['khach_hang'];
+                $status = $donHang['trang_thai'];
+                $content = $donHang['noi_dung'];
+                $inputDate = strtotime(str_replace('-', '/', $donHang['ngay_nhan']));//date('Y-m-d', strtotime(str_replace('-', '/', $donHang['ngay_nhan'])));
+                //echo $inputDate;
+            }
+
+            if ($error != "") : 
+                echo "
+                <div class='alert alert-danger mb-3' role='alert'>
+                    $error
+                </div> 
+                ";
+            endif 
+        ?>
+        <input type='hidden' name='id' value='<?php echo $id?>'>
         <div class="form-group row p-2">
             <label for="orderName" class="col-sm-2 col-form-label">Tên đơn hàng</label>
             <div class="col-sm-10 has-validation">
-                <input type="text" class="form-control" id="orderName" placeholder="Tên đơn hàng" name='orderName' aria-describedby="inputGroupPrepend" required>
+                <input type="text" class="form-control" id="orderName" name='orderName' aria-describedby="inputGroupPrepend" required value='<?php echo "$orderName"; ?>'>
                 <div id="validationServerOrderNameFeedback" class="invalid-feedback">
                     Nhập tên đơn hàng
                 </div>
@@ -24,12 +42,16 @@
             <div class="col-sm-10">
                 <select class="form-control" id='employee' name='employee'>
                     <?php
+                        
                         foreach ($danhSachNhanVien as $nhanVien)
                         {
-                            
+                            $selected = '';    
                             $idNhanVien = $nhanVien['id'];
                             $tenNhanVien = $nhanVien['ho_ten'];
-                            echo "<option value=$idNhanVien>$tenNhanVien</option>";
+                            if ($idNhanVien == $nhanVien)
+                                $selected = "selected";
+                            
+                            echo "<option value=$idNhanVien $selected>$tenNhanVien</option>";
                         }
                     ?>
                 </select>
@@ -40,12 +62,15 @@
             <div class="col-sm-10">
                 <select class="form-control" id='status' name='status'>
                     <?php
+                        
                         foreach ($trangThaiDonHang as $trangThai)
                         {
-                            
+                            $selected = '';    
                             $idTrangThai = $trangThai['trang_thai'];
                             $dienGiai = $trangThai['dien_giai'];
-                            echo "<option value=$idTrangThai>$dienGiai</option>";
+                            if ($idTrangThai == $status)
+                                $selected = "selected";
+                            echo "<option value=$idTrangThai $selected>$dienGiai</option>";
                         }
                     ?>    
                 </select>
@@ -56,12 +81,15 @@
             <div class="col-sm-10">
                 <select class="form-control" id='customer' name='customer'>
                     <?php
+                        
                         foreach ($danhSachKhachHang as $khachHang)
                         {
-                            
+                            $selected = '';    
                             $idKhachHang = $khachHang['id'];
                             $tenKhachHang = $khachHang['ho_ten'];
-                            echo "<option value=$idKhachHang>$tenKhachHang</option>";
+                            if ($idKhachHang == $customer)
+                                $selected = "selected";
+                            echo "<option value=$idKhachHang $selected>$tenKhachHang</option>";
                         }
                     ?>
                 </select>
@@ -71,6 +99,7 @@
             <label for="content" class="col-sm-2 col-form-label">Nội dung</label>
             <div class="col-sm-10 has-validation has-validation">
                 <textarea class='form-control' id='content' name='content' aria-describedby="inputGroupPrepend" required>
+                    <?php echo $content?>
                 </textarea>
             </div>
             <div id="validationServerOrderNameFeedback" class="invalid-feedback">
@@ -80,7 +109,7 @@
         <div class="form-group row p-2">
             <label for="inputDate" class="col-sm-2 col-form-label">Ngày nhận</label>
             <div class="col-sm-10">
-                <input class="form-control" id="inputDate" name="inputDate"  type="text"/>
+                <input class="form-control" id="inputDate" name="inputDate"  type="text" />
             </div>
         </div>
         <div class='form-group row p-2'>
@@ -115,11 +144,11 @@
     // khởi tạo datepicker cho field ngây nhận đơn hàng
 
     $(document).ready(function(){
-      'use strict'
+      //'use strict'
       var date_input=$('input[name="inputDate"]'); 
       var container=$('form').length>0 ? $('form').parent() : "body";
       var options={
-        format: 'mm/dd/yyyy',
+        format: 'yyyy-mm-dd',
         container: container,
         todayHighlight: true,
         autoclose: true,
@@ -127,6 +156,6 @@
         autoclose: true
       };
       date_input.datepicker(options);
-      date_input.datepicker('setDate', new Date());
+      date_input.datepicker('setDate', new Date(<?php echo $inputDate == 0 ? "" : $inputDate * 1000; ?>));
     })
 </script>

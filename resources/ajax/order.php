@@ -40,7 +40,7 @@ $columns = array(
     array( 'db' => 'noi_dung',   'dt' => 2 ),
     array( 'db' => 'trang_thai',     'dt' => 3 ),
     array( 'db' => 'ngay_nhan',     'dt' => 4 ),
-    
+    array( 'db' => 'id',     'dt' => 5 ),
 );
  
 // SQL server connection information

@@ -39,7 +39,7 @@
         'ajaxPage' => 'order.php'
 	);
 	
-	renderLayoutWithContentFile("page_list.php", $variables);
+	renderLayoutWithContentFile("orders.php", $variables);
 
 
     ?>

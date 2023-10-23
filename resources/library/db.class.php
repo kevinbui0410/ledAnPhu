@@ -385,15 +385,16 @@ class MeekroDB {
     $args = func_get_args();
     $table = array_shift($args);
     $params = array_shift($args);
-
+    
     $update_part = $this->parse(
       str_replace('%', $this->param_char, "UPDATE %b SET %hc"),
       $table, $params
     );
-
+    print_r($args);
     // we don't know if they used named or numbered args, so the where clause
     // must be run through the parser separately
     $where_part = call_user_func_array(array($this, 'parse'), $args);
+    echo $where_part;
     $query = $update_part . ' WHERE ' . $where_part;
     return $this->query($query);
   }
