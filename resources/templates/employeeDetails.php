@@ -2,17 +2,31 @@
 <div class="row">
     <form method="POST" class='needs-validation'>
         <?php 
-        if ($error != "") : 
-            echo "
-            <div class='alert alert-danger mb-3' role='alert'>
-                $error
-            </div> 
-            ";
-        endif ?>
+            $employeeName = "";
+            $employeeAddress = "";
+            $employeePhone = "";
+            $department = 0;
+            $branch = 0;
+            if ($nhanVien != null) {
+                $employeeName = $nhanVien['ho_ten'];
+                $employeeAddress = $nhanVien['dia_chi'];
+                $employeePhone = $nhanVien['dien_thoai'];
+                $department = $nhanVien['phong_id'];
+                $branch = $nhanVien['chi_nhanh_id'];
+            }
+            if ($error != "") : 
+                echo "
+                <div class='alert alert-danger mb-3' role='alert'>
+                    $error
+                </div> 
+                ";
+            endif 
+        ?>
+        <input type='hidden' name='id'  value='<?php echo $id?>'/>
         <div class="form-group row p-2">
             <label for="employeeName" class="col-sm-2 col-form-label">Tên nhân viên</label>
             <div class="col-sm-10 has-validation">
-                <input type="text" class="form-control" id="employeeName" placeholder="Tên nhân viên" name='employeeName' aria-describedby="inputGroupPrepend" required>
+                <input type="text" class="form-control" id="employeeName" value="<?php echo $employeeName; ?>" name='employeeName' aria-describedby="inputGroupPrepend" required>
                 <div id="validationServerEmployeeNameFeedback" class="invalid-feedback">
                     Nhập tên nhân viên
                 </div>
@@ -21,7 +35,7 @@
         <div class="form-group row p-2">
             <label for="employeeAddress" class="col-sm-2 col-form-label">Địa chỉ nhân viên</label>
             <div class="col-sm-10 has-validation">
-                <input type="text" class="form-control" id="employeeAddress" placeholder="Điạ chỉ nhân viên" name='employeeAddress' aria-describedby="inputGroupPrepend" required>
+                <input type="text" class="form-control" id="employeeAddress" value="<?php echo $employeeAddress; ?>" name='employeeAddress' aria-describedby="inputGroupPrepend" required>
                 <div id="validationServerEmployeeAddressFeedback" class="invalid-feedback">
                     Nhập địa chỉ nhân viên
                 </div>
@@ -30,7 +44,7 @@
         <div class="form-group row p-2">
             <label for="employeePhone" class="col-sm-2 col-form-label">Điện thoại nhân viên</label>
             <div class="col-sm-10 has-validation">
-                <input type="text" class="form-control" id="employeePhone" placeholder="Điện thoại nhân viên" name='employeePhone' aria-describedby="inputGroupPrepend" required>
+                <input type="text" class="form-control" id="employeePhone" value="<?php echo $employeePhone; ?>" name='employeePhone' aria-describedby="inputGroupPrepend" required>
                 <div id="validationServerEmployeePhoneFeedback" class="invalid-feedback">
                     Nhập điện thoại nhân viên
                 </div>
@@ -43,10 +57,12 @@
                     <?php
                         foreach ($danhSachPhong as $phong)
                         {
-                            
+                            $selected = '';
                             $idPhong = $phong['id'];
                             $tenPhong = $phong['ten_phong_ban'];
-                            echo "<option value=$idPhong>$tenPhong</option>";
+                            if ($idPhong == $department)
+                                $selected = 'selected';
+                            echo "<option value=$idPhong $selected>$tenPhong</option>";
                         }
                     ?>    
                 </select>
@@ -59,10 +75,12 @@
                     <?php
                         foreach ($danhSachChiNhanh as $chiNhanh)
                         {
-                            
+                            $selected = '';
                             $idChiNhanh = $chiNhanh['id'];
                             $tenChiNhanh = $chiNhanh['ten_chi_nhanh'];
-                            echo "<option value=$idChiNhanh>$tenChiNhanh</option>";
+                            if ($idChiNhanh == $branch)
+                                $selected = 'selected';
+                            echo "<option value=$idChiNhanh $selected>$tenChiNhanh</option>";
                         }
                     ?>    
                 </select>

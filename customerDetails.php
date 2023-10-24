@@ -13,7 +13,7 @@
     $error = "";
 
     if ($id != 0)
-        $khachHang = DB::query("SELECT * FROM khach_hang WHERE id=$id");
+        $khachHang = DB::queryFirstRow("SELECT * FROM khach_hang WHERE id=$id");
 
     /*
     $danhSachPhong = DB::query("SELECT * FROM phong_ban");
@@ -28,15 +28,20 @@
             $tenKhachHang = $_POST['customerName'];
             $diaChi = $_POST['customerAddress'];
             $dienThoai = $_POST['customerPhone'];
+            $idKhachHang = $_POST['id'];
             /*$phong = $_POST['department'];
             $chiNhanh = $_POST['branch'];*/
             $datas = array('ho_ten'=>$tenKhachHang,'dia_chi'=>$diaChi,
                            'dien_thoai'=>$dienThoai);
             //$error = DB::insertOrReplace('INSERT','don_hang',$datas);
             try {
-                DB::insert('khach_hang',$datas);
-                $idKhachHang = DB::insertId();
-                DB::insert('khach_hang_nhan_vien',array('khach_hang'=>$idKhachHang,'nhan_vien'=>$_SESSION["role"]));
+                if ($idKhachHang == 0){
+                    DB::insert('khach_hang',$datas);
+                    $idKhachHang = DB::insertId();
+                    DB::insert('khach_hang_nhan_vien',array('khach_hang'=>$idKhachHang,'nhan_vien'=>$_SESSION["role"]));
+                } else {
+                    DB::update('khach_hang',$datas,"id=$idKhachHang");
+                }
                 //DB::update('nhan_vien',['username' => "username$idNhanVien",'password' => md5('password'),'role' => $idNhanVien],"id=$idNhanVien");
                 header("location: customers.php");
                 exit;
@@ -50,6 +55,7 @@
     $variables = array(
         'title' => "Chi tiết khách hàng",
         'khachHang' => $khachHang,
+        'id' => $id,
         'error' => $error
     );
 

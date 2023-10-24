@@ -6,21 +6,18 @@
 
     require_once 'resources/library/auth.php';
 
-    $id = isset($_GET["id"]) ? $_GET["id"] : 0;
+    $id = isset($_GET["id"]) && $_GET["id"] != null ? $_GET["id"] : 0;
 
     $nhanVien = null;
     $error = "";
 
     if ($id != 0)
-        $nhanVien = DB::query("SELECT * FROM nhan_vien WHERE id=$id");
+        $nhanVien = DB::queryFirstRow("SELECT * FROM nhan_vien WHERE id=$id");
 
     $danhSachPhong = DB::query("SELECT * FROM phong_ban");
     
     $danhSachChiNhanh = DB::query("SELECT * FROM chi_nhanh");
 
-    if (isset($_GET['id']) && $_GET['id'] != null){
-        $id = $_GET['id'];
-    }
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         if ($_POST['employeeName'] == '' || $_POST['employeeAddress'] == '' || $_POST['employeePhone'] == ''){
@@ -31,14 +28,19 @@
             $dienThoai = $_POST['employeePhone'];
             $phong = $_POST['department'];
             $chiNhanh = $_POST['branch'];
+            $idNhanVien = $_POST['id'];
             $datas = array('ho_ten'=>$tenNhanVien,'dia_chi'=>$diaChi,
                            'dien_thoai'=>$dienThoai,
                            'phong_id'=>$phong,'chi_nhanh_id'=>$chiNhanh);
             //$error = DB::insertOrReplace('INSERT','don_hang',$datas);
             try {
-                DB::insert('nhan_vien',$datas);
-                $idNhanVien = DB::insertId();
-                DB::update('nhan_vien',['username' => "username$idNhanVien",'password' => md5('password'),'role' => $idNhanVien],"id=$idNhanVien");
+                if ($idNhanVien == 0){
+                    DB::insert('nhan_vien',$datas);
+                    $idNhanVien = DB::insertId();
+                    DB::update('nhan_vien',['username' => "username$idNhanVien",'password' => md5('password'),'role' => $idNhanVien],"id=$idNhanVien");
+                } else {
+                    DB::update('nhan_vien',$datas,"id = $idNhanVien");
+                }
                 header("location: employees.php");
                 exit;
             } catch (Exception $ex){
@@ -53,6 +55,7 @@
         'nhanVien' => $nhanVien,
         'danhSachPhong' => $danhSachPhong,
         'danhSachChiNhanh' => $danhSachChiNhanh,
+        'id' => $id,
         'error' => $error
     );
 
