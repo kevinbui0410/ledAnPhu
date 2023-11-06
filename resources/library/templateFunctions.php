@@ -28,7 +28,6 @@
 	
 		require_once(TEMPLATES_PATH . "/header.php");
 		
-	
 		echo "<div class=\"container\">\n";
 	
 		if (file_exists($contentFileFullPath)) {
@@ -41,13 +40,9 @@ In this case we will just include an error template.
 			require_once(TEMPLATES_PATH . "/error.php");
 		}
 	
-		
-	
 		//require_once(TEMPLATES_PATH . "/rightPanel.php");
-	
-		// close container div 
+			// close container div 
 		echo "</div>\n";
-	
 		require_once(TEMPLATES_PATH . "/footer.php");
 	}
 ?>
